@@ -53,6 +53,10 @@ function App() {
       })
   }
 
+  function submitPost(post){
+    console.log(post)
+  }
+
   function hadleLogout() {
     fetch('/logout', {
       method: "DELETE"
@@ -72,7 +76,7 @@ function App() {
       <Navbar isLogin={loggedIn} handleOnclick={hadleLogout} />
       <Routes>
         <Route path='/' element={<Home posts={posts} />} />
-        <Route path='/posts' element={<Write currentUser={currentUser}/>} />
+        <Route path='/posts' element={<Write currentUser={currentUser} handlePost={submitPost}/>} />
         <Route path='/login' element={<Login onSignIn={handleSignIn} />} />
         <Route path='/signup' element={<SignUp />} />
       </Routes>

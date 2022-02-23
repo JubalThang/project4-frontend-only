@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
 import styled from 'styled-components'
 
-export default function Write({currentUser}) {
+export default function Write({currentUser, handlePost}) {
     const Input = styled.input`
     width: 100%;
         padding: 1rem 2rem;
@@ -21,14 +21,25 @@ export default function Write({currentUser}) {
             color: #202020;
         }
     `
+   
+    const {
+        register,
+        handleSubmit,
+        formState: { errors }
+    } = useForm();
+
+    const onSubmit = (data) => {
+        // handlePost(data)
+        console.log(data)
+    }
     return (
         <>
         {currentUser ?  
         <div className='mt-16'>
             <h1 className='text-5xl font-extrabold text-center'>Write a post</h1>
-            <form className='max-w-4xl mx-auto mt-6'>
-                <Input type='text' placeholder='Title'></Input>
-                <TextArea type='text' placeholder='Post goes here!'></TextArea>
+            <form className='max-w-4xl mx-auto mt-6' onSubmit={handleSubmit(onSubmit)}>
+                <Input type='text' placeholder='Title' {...register("title", {required:true})}></Input>
+                <TextArea type='text' placeholder='Post goes here!' {...register("content")}></TextArea>
                 <Button className='px-16 py-4 mt-4 rounded-lg bg-green-700 font-bold text-white'>POST</Button>
             </form>
         </div>

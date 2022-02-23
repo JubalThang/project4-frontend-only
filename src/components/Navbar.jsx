@@ -14,7 +14,7 @@ export default function Navbar({isLogin, handleOnclick}) {
     }
 `
   return (
-    <nav className=' bg-gray-500 h-16 flex'>
+    <nav className=' bg-gray-500 h-16 flex shadow-xl'>
         <div className='container mx-auto flex items-center justify-between'>
             <div className='text-4xl text-white font-bold'>Tiny Blog</div>
             <div className='px-4'>
