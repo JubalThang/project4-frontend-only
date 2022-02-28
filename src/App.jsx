@@ -15,11 +15,11 @@ function App() {
   const navigate = useNavigate()
 
   useEffect(() => {
+   
     fetch('/home')
       .then(res => {
         if (res.ok) {
           res.json().then(posts => setPosts(posts))
-
           fetch('/me')
             .then(res => {
               if (res.ok) {
@@ -28,13 +28,12 @@ function App() {
               }
             })
         } else {
-          console.error(res.error())
+          res.json().then(console.log)
         }
       })
   }, [])
 
   function handleSignIn(user) {
-    console.log(user)
     fetch('/login', {
       method: 'POST',
       headers: {
@@ -44,17 +43,36 @@ function App() {
     })
       .then(res => {
         if (res.ok) {
-          setCurrentUser(user)
+          res.json().then(setCurrentUser(user))
+          // setCurrentUser(user)
           setLoggedIn(true)
           navigate('/')
         } else {
-          console.error(res.error)
+          res.json().then(console.log)
         }
       })
   }
 
   function submitPost(post){
-    console.log(post)
+    
+    fetch('/posts', {
+      method: 'POST',
+      headers: {
+        'Content-type' : 'Application/json'
+      },
+      body: JSON.stringify({...post, "user_id" : currentUser.id})
+      
+    })
+    .then(res => {
+      if(res.ok) {
+        const newPosts = {...post, "user": { "id" : currentUser.id, "username" : currentUser.username}}
+        setPosts([newPosts, ...posts])
+        navigate('/')
+      } else {
+        console.log("something went wrong!!")
+         res.json().then(console.log)
+      }
+    })
   }
 
   function hadleLogout() {
@@ -67,16 +85,18 @@ function App() {
         setCurrentUser(null)
         navigate('/')
       } else {
-        console.error(res.erro)
+        res.json().then(console.log)
       }
     })
   }
+
+ 
   return (
     <>
       <Navbar isLogin={loggedIn} handleOnclick={hadleLogout} />
       <Routes>
-        <Route path='/' element={<Home posts={posts} />} />
-        <Route path='/posts' element={<Write currentUser={currentUser} handlePost={submitPost}/>} />
+        <Route path='/' element={<Home posts={posts} setPosts={setPosts}/>} />
+        <Route path='/posts' element={<Write isLoggedIn={loggedIn} handlePost={submitPost}/>} />
         <Route path='/login' element={<Login onSignIn={handleSignIn} />} />
         <Route path='/signup' element={<SignUp />} />
       </Routes>

@@ -1,28 +1,30 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-import style from 'styled-components'
+import { Link, NavLink } from 'react-router-dom'
 
-export default function Navbar({isLogin, handleOnclick}) {
-    const Button = style.button `
-    padding: 8px 16px;
-    font-weight: bold;
-    font-size: 20px;
-    background-color: transparent;
-    color: white;
-    :hover {
-        color: rgb(248 113 113);
+export default function Navbar({ isLogin, handleOnclick }) {
+
+  const Button = ({ text, func }) => {
+
+    if (func) {
+      return <button onClick={func} className=' font-black text-xl text-white px-2 hover:text-red-300'>{text}</button>
+    } else {
+      return (
+        <button className=' font-black text-xl text-white px-2 hover:text-red-300'>{text}</button>
+      )
     }
-`
+  }
+
   return (
     <nav className=' bg-gray-500 h-16 flex shadow-xl'>
-        <div className='container mx-auto flex items-center justify-between'>
-            <div className='text-4xl text-white font-bold'>Tiny Blog</div>
-            <div className='px-4'>
-              <Link to='/'><Button>HOME</Button> </Link>
-               <Link to='/posts'><button className='text-xl text-white font-bold hover:text-red-400'>WRITE</button> </Link>
-               {isLogin ? <Link to='/logout'> <Button onClick={handleOnclick}>LOG OUT</Button> </Link>: <Link to='/login'><Button>LOG IN</Button></Link>}
-            </div>
+      <div className='container mx-auto flex items-center justify-between'>
+        <Link to='/'> <div className='text-4xl text-white font-bold cursor-pointer '>Tiny Blog</div> </Link>
+        <div className='px-4'>
+          <NavLink to='/' className={({ isActive }) => isActive ? 'bg-red-500 rounded-md py-2' : ''}> <Button text='HOME' /> </NavLink>
+          <NavLink to='/posts' className={({ isActive }) => isActive ? 'bg-red-500 rounded-md py-2' : ''}> <Button text='WRITE' /> </NavLink>
+          {isLogin ? <Button func={handleOnclick} text='LOG OUT' /> : <Link to='/login'><Button text='LOG IN' /></Link>}
         </div>
+      </div>
     </nav>
   )
 }
+
