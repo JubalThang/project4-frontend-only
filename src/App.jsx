@@ -15,22 +15,9 @@ function App() {
   const navigate = useNavigate()
 
   useEffect(() => {
-   
     fetch('/home')
-      .then(res => {
-        if (res.ok) {
-          res.json().then(posts => setPosts(posts))
-          fetch('/me')
-            .then(res => {
-              if (res.ok) {
-                res.json().then(user => setCurrentUser(user))
-                setLoggedIn(true)
-              }
-            })
-        } else {
-          res.json().then(console.log)
-        }
-      })
+      .then(res => res.json())
+      .then(posts =>  setPosts(posts))
   }, [])
 
   function handleSignIn(user) {
@@ -43,10 +30,20 @@ function App() {
     })
       .then(res => {
         if (res.ok) {
-          res.json().then(setCurrentUser(user))
-          // setCurrentUser(user)
-          setLoggedIn(true)
-          navigate('/')
+          // res.json().then(setCurrentUser(user))
+          // // setCurrentUser(user)
+          // setLoggedIn(true)
+          // navigate('/')
+          fetch('/me')
+          .then(res => {
+            if (res.ok) {
+              res.json().then(user => setCurrentUser(user))
+              setLoggedIn(true)
+              navigate('/')
+            } else {
+              res.json().then(console.log)
+            }
+          })
         } else {
           res.json().then(console.log)
         }
@@ -54,19 +51,21 @@ function App() {
   }
 
   function submitPost(post){
-    
+    const newPost = {...post, "user_id" : currentUser.id}
+
+    console.log(currentUser)
     fetch('/posts', {
       method: 'POST',
       headers: {
         'Content-type' : 'Application/json'
       },
-      body: JSON.stringify({...post, "user_id" : currentUser.id})
-      
+      body: JSON.stringify(newPost)
     })
     .then(res => {
       if(res.ok) {
-        const newPosts = {...post, "user": { "id" : currentUser.id, "username" : currentUser.username}}
-        setPosts([newPosts, ...posts])
+        const newPost = {...post, "user": { "id" : currentUser.id, "username" : currentUser.username}}
+        setPosts([newPost, ...posts])
+        // setPosts([newPosts, ...posts])
         navigate('/')
       } else {
         console.log("something went wrong!!")
@@ -90,6 +89,9 @@ function App() {
     })
   }
 
+  function handleDelete(id) {
+    console.log(id)
+  }
  
   return (
     <>

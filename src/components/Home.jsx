@@ -27,12 +27,10 @@ export default function Home({ posts, setPosts }) {
         })
             .then(res => {
                 if (res.ok) {
-                    const newPosts = posts.map(p =>
-                        p.id === uid ? { ...p, likes: p.likes + 1 } : p
-                    )
+                    const newPosts = posts.filter(p => p.id !== uid)
                     setPosts(newPosts)
                 } else {
-                    alert('Please login to perfom this action!')
+                    res.json().then(error => alert(error.error))
                 }
             })
     }

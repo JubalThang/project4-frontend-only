@@ -21,7 +21,7 @@ export default function Navbar({ isLogin, handleOnclick }) {
         <div className='px-4'>
           <NavLink to='/' className={({ isActive }) => isActive ? 'bg-red-500 rounded-md py-2' : ''}> <Button text='HOME' /> </NavLink>
           <NavLink to='/posts' className={({ isActive }) => isActive ? 'bg-red-500 rounded-md py-2' : ''}> <Button text='WRITE' /> </NavLink>
-          {isLogin ? <Button func={handleOnclick} text='LOG OUT' /> : <Link to='/login'><Button text='LOG IN' /></Link>}
+          {isLogin ? <Button func={handleOnclick} text='LOG OUT' /> : <NavLink to='/login' className={({ isActive }) => isActive ? 'bg-red-500 rounded-md py-2' : ''}><Button text='LOG IN' /></NavLink>}
         </div>
       </div>
     </nav>
