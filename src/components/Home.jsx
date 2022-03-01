@@ -1,40 +1,6 @@
 import { HeartIcon, TrashIcon } from '@heroicons/react/solid'
 
-export default function Home({ posts, setPosts }) {
-
-
-    function handleLikes(uid) {
-
-        fetch(`/posts/${uid}/likes`, {
-            method: 'PATCH'
-        })
-            .then(res => {
-                if (res.ok) {
-                    const newPosts = posts.map(p =>
-                        p.id === uid ? { ...p, likes: p.likes + 1 } : p
-                    )
-                    setPosts(newPosts)
-                } else {
-                    alert('Please login to perfom this action!')
-                    // console.log('please login to perform this action!')
-                }
-            })
-    }
-
-    function handleDelete(uid) {
-        fetch(`/posts/${uid}`, {
-            method: 'DELETE'
-        })
-            .then(res => {
-                if (res.ok) {
-                    const newPosts = posts.filter(p => p.id !== uid)
-                    setPosts(newPosts)
-                } else {
-                    res.json().then(error => alert(error.error))
-                }
-            })
-    }
-
+export default function Home({ posts, handleLikes, handleDelete}) {
     // console.log(posts)
     return (
         <div className='max-w-6xl mx-auto'>

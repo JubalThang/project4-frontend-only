@@ -9,14 +9,6 @@ export default function Write({ isLoggedIn, handlePost }) {
     } = useForm();
 
     const onSubmit = (data) => {
-        // console.log(data)
-        // if (currentUser.id) {
-            // const post = {...data, "user_id" : currentUser.id}
-        //     const post = {...data, "user":{ "id" : currentUser.id, "username" : currentUser.username}}
-        //     handlePost(post)
-        // } else {
-        //     console.log("No logged in user!")
-        // }
         handlePost(data)
     }
 

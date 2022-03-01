@@ -1,7 +1,6 @@
-import React from 'react'
 import { Link, NavLink } from 'react-router-dom'
 
-export default function Navbar({ isLogin, handleOnclick }) {
+export default function Navbar({ isLogin, handleOnclick, currentUser}) {
 
   const Button = ({ text, func }) => {
 
@@ -15,6 +14,7 @@ export default function Navbar({ isLogin, handleOnclick }) {
   }
 
   return (
+
     <nav className=' bg-gray-500 h-16 flex shadow-xl'>
       <div className='container mx-auto flex items-center justify-between'>
         <Link to='/'> <div className='text-4xl text-white font-bold cursor-pointer '>Tiny Blog</div> </Link>
@@ -25,6 +25,7 @@ export default function Navbar({ isLogin, handleOnclick }) {
         </div>
       </div>
     </nav>
+
   )
 }
 
