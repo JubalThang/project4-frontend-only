@@ -8,7 +8,7 @@ This is a small blog app that everyone can read all the posts without having an 
 - [React Router v6](https://reactrouter.com/) 
 
 ## Ruby Backend Repo link
-[Githup](https://)
+[Githup](https://github.com/JubalThang/phase4-project-backend-only)
 
 
 ## Navbar

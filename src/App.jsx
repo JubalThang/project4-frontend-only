@@ -15,7 +15,7 @@ function App() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    console.log('call')
+  
     // fetch('/home')
     //   .then(res => res.json())
     //   .then(posts => setPosts(posts))
@@ -128,7 +128,7 @@ function App() {
 
   return (
     <>
-      <Navbar isLogin={loggedIn} handleOnclick={hadleLogout} />
+      <Navbar currentUser={currentUser} handleOnclick={hadleLogout}  />
       <Routes>
         <Route path='/' element={<Home posts={posts} setPosts={setPosts} handleLikes={handleLikes} handleDelete={handleDelete} />} />
         <Route path='/posts' element={<Write isLoggedIn={loggedIn} handlePost={submitPost} />} />
