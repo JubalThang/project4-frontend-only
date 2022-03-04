@@ -6,8 +6,11 @@ import Write from './components/Write'
 import Login from './components/Login'
 import SignUp from './components/SignUp'
 import { useEffect, useState } from 'react';
+import { Modal } from './components/Components/Modal';
 
 function App() {
+
+  const [showModal, setShowModal] = useState(false)
   const [currentUser, setCurrentUser] = useState(null)
   const [posts, setPosts] = useState([])
   const [loggedIn, setLoggedIn] = useState(false)
@@ -80,6 +83,7 @@ function App() {
   }
 
   function hadleLogout() {
+    showModal &&
     fetch('/logout', {
       method: "DELETE"
     })
@@ -91,7 +95,12 @@ function App() {
         } else {
           res.json().then(console.log)
         }
-      })
+      }) 
+      setShowModal(!showModal)
+  }
+
+  function showHideModal() {
+    setShowModal(!showModal)
   }
 
   function handleLikes(uid) {
@@ -128,14 +137,14 @@ function App() {
 
   return (
     <>
-      <Navbar currentUser={currentUser} handleOnclick={hadleLogout}  />
+      <Navbar currentUser={currentUser} handleOnclick={hadleLogout} />
       <Routes>
         <Route path='/' element={<Home posts={posts} setPosts={setPosts} handleLikes={handleLikes} handleDelete={handleDelete} />} />
         <Route path='/posts' element={<Write isLoggedIn={loggedIn} handlePost={submitPost} />} />
         <Route path='/login' element={<Login onSignIn={handleSignIn} />} />
         <Route path='/signup' element={<SignUp />} />
       </Routes>
-
+      <Modal showModal={showModal} setShowModal={hadleLogout} showHideModal={showHideModal} />
     </>
   );
 }
