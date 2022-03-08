@@ -14,14 +14,10 @@ function App() {
   const [currentUser, setCurrentUser] = useState(null)
   const [posts, setPosts] = useState([])
   const [loggedIn, setLoggedIn] = useState(false)
-
+  
   const navigate = useNavigate()
 
   useEffect(() => {
-  
-    // fetch('/home')
-    //   .then(res => res.json())
-    //   .then(posts => setPosts(posts))
     fetch('/home')
     .then(res => {
       if (res.ok) {
@@ -66,7 +62,7 @@ function App() {
   function submitPost(post) {
     const newPost = { ...post, "likes" : 0 ,"user_id": currentUser.id }
 
-    console.log(currentUser)
+    // console.log(currentUser)
     fetch('/posts', {
       method: 'POST',
       headers: {
@@ -79,7 +75,6 @@ function App() {
         setPosts([post, ...posts])
         navigate('/')
       })
-      .then(error => console.log(error))
   }
 
   function hadleLogout() {
@@ -98,11 +93,6 @@ function App() {
       }) 
       setShowModal(!showModal)
   }
-
-  function showHideModal() {
-    setShowModal(!showModal)
-  }
-
   function handleLikes(uid) {
 
     fetch(`/posts/${uid}/likes`, {
@@ -144,7 +134,7 @@ function App() {
         <Route path='/login' element={<Login onSignIn={handleSignIn} />} />
         <Route path='/signup' element={<SignUp />} />
       </Routes>
-      <Modal showModal={showModal} setShowModal={hadleLogout} showHideModal={showHideModal} />
+      <Modal showModal={showModal} setShowModal={hadleLogout} showHideModal={() => setShowModal(!showModal)} />
     </>
   );
 }
